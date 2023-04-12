@@ -46,76 +46,95 @@ class _BuildHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-          _BuildStatusCarreerBar(),
+      children: [
+        const Text('Cronograma del día'),
+        const Text('Martes, 11 de Abril, 2023'),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.only(right: 20),
+          child: Row(
+            children: [
+              _buildTimelineItem(),
+            ],
+          ),
+        ),
+        const _BuildDayTimeline(),
         ],
     );
   }
 }
-
-class _BuildStatusCarreerBar extends StatelessWidget {
-  const _BuildStatusCarreerBar();
+class _BuildDayTimeline extends StatelessWidget {
+  const _BuildDayTimeline();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 60,
-          child: Container(
-            color: tdBlue,
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: SizedBox(
+        height: 450,
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          children: [
+            _buildGridItem('Anuncios', Icons.campaign, Colors.lightGreen),
+            _buildGridItem('Calendario', Icons.calendar_today, Colors.red),  
+            _buildGridItem('Materias', Icons.menu_book, Colors.blue),
+            _buildGridItem('Examenes', Icons.note, Colors.orange),
+            _buildGridItem('Autogestion', Icons.home, Colors.black),
+            _buildGridItem('Proximamente', Icons.home, Colors.black)          
+          ],
         ),
-        SizedBox(
-          height: 60,
-          width: double.infinity,
-          child: Container(
-            color: Colors.white,
-          ),
-        ),
-        _BuildDayTimeline()
-      ]
+      ),
     );
   }
 }
 
-class _BuildDayTimeline extends StatelessWidget {
-  const _BuildDayTimeline({
-    super.key,
-  });
+Widget _buildTimelineItem(){
+  return Container(
+    color: tdRed,
+    width: 300,
+    child: Column(children: [
+      Row(children: const [
+        Icon(Icons.timeline),
+        Text('04:30 PM'),
+      ],),
+      const Text('CS4512 - Teoría de las'),
+      Row(children: const [
+        Icon(Icons.home),
+        Text('Clase en curso')
+      ],)
+    ]),
+  );
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
+Widget _buildGridItem(String name, IconData iconName, Color iconColor) {
+  return Container(
+    height: 30.0,
+    width: 30.0,
+    color: Colors.white,
+    alignment: Alignment.center,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('Tus horarios'),
-        const Text('Lunes 10, Abril, 2023'),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SizedBox(
-                height: 200,
-                width: 200,
-                child: Container(
-                  color: Colors.amber,
-                ),
-              ),
-              SizedBox(
-                height: 200,
-                width: 200,
-                child: Container(
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        )
-        
-      ],
-    );
-  }
+        Icon(
+          iconName, 
+          color: iconColor,
+          size: 48.0,
+        ),
+        Text(
+          name,
+          style: const TextStyle(
+            fontSize: 18.0,
+            color: Colors.black,
+            ),
+        ),
+      ]
+      
+    ),
+  );
 }
 
 class _BuildBottomBar extends StatelessWidget {
